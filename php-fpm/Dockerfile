@@ -37,7 +37,30 @@ RUN apt-get update -yqq && \
 # are installed on the base image 'laradock/php-fpm' image. If you want
 # to add more Software's or remove existing one, you need to edit the
 # base image (https://github.com/Laradock/php-fpm).
-#
+
+RUN apt-get update && apt-get install -y \
+        libmcrypt-dev \
+    && pecl install mcrypt-1.0.1 \
+    # && mv /usr/local/lib/php/extensions/no-debug-non-zts-20170718/mcrypt.so $(php -r "echo ini_get('extension_dir');")/mcrypt.so \
+    && printf "extension=mcrypt.so\n" > $PHP_INI_DIR/conf.d/mcrypt.ini   
+
+# Install the PHP mcrypt extention
+# RUN docker-php-ext-configure mcrypt
+# RUN docker-php-ext-install mcrypt
+
+# Install the PHP pdo_mysql extention
+# RUN docker-php-ext-install pdo_mysql
+
+#####################################
+# gd:
+#####################################
+
+# Install the PHP gd library
+# RUN docker-php-ext-configure gd \
+#         --enable-gd-native-ttf \
+#         --with-jpeg-dir=/usr/lib \
+#         --with-freetype-dir=/usr/include/freetype2 && \
+#     docker-php-ext-install gd
 
 #
 #--------------------------------------------------------------------------
