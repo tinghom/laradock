@@ -38,11 +38,25 @@ RUN apt-get update -yqq && \
 # to add more Software's or remove existing one, you need to edit the
 # base image (https://github.com/Laradock/php-fpm).
 
-RUN apt-get update && apt-get install -y \
-        libmcrypt-dev \
-    && pecl install mcrypt-1.0.1 \
-    # && mv /usr/local/lib/php/extensions/no-debug-non-zts-20170718/mcrypt.so $(php -r "echo ini_get('extension_dir');")/mcrypt.so \
-    && printf "extension=mcrypt.so\n" > $PHP_INI_DIR/conf.d/mcrypt.ini   
+RUN if [ ${PHP_VERSION} = 7.2 ]; then \
+    apt-get update && apt-get install -y \
+            libmcrypt-dev \
+        && pecl install mcrypt-1.0.1 \
+        && printf "extension=mcrypt.so\n" > $PHP_INI_DIR/conf.d/mcrypt.ini \
+    else \
+        docker-php-ext-configure mcrypt \
+        && docker-php-ext-install mcrypt \
+;fi
+
+# # php 7.2
+# RUN apt-get update && apt-get install -y \
+#         libmcrypt-dev \
+#     && pecl install mcrypt-1.0.1 \
+#     && printf "extension=mcrypt.so\n" > $PHP_INI_DIR/conf.d/mcrypt.ini   
+
+# # php 7.1
+# RUN docker-php-ext-configure mcrypt
+# RUN docker-php-ext-install mcrypt
 
 # Install the PHP mcrypt extention
 # RUN docker-php-ext-configure mcrypt
