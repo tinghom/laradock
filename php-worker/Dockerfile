@@ -41,6 +41,8 @@ RUN if [ ${INSTALL_PGSQL} = true ]; then \
 RUN rm /var/cache/apk/* \
     && mkdir -p /var/www
 
+COPY php-config.ini /usr/local/etc/php/conf.d/php-config.ini
+
 #
 #--------------------------------------------------------------------------
 # Optional Supervisord Configuration
