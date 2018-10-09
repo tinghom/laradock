@@ -774,10 +774,10 @@ USER root
 ARG INSTALL_IMAGEMAGICK=false
 
 RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
-    apt-get update && \
-    apt-get install -y --force-yes libmagickwand-dev imagemagick && \
-    pecl install imagick && \
-    docker-php-ext-enable imagick \
+    # apt-get update && \
+    # apt-get install -y --force-yes libmagickwand-dev imagemagick php-imagick && \
+    apt-get install -y imagemagick php-imagick \
+    # pecl install imagick \
 ;fi
 
 ###########################################################################
