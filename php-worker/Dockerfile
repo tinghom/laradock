@@ -36,6 +36,11 @@ RUN apk add --update --no-cache autoconf g++ imagemagick-dev libtool make pcre-d
     && docker-php-ext-enable imagick \
     && apk del autoconf g++ libtool make pcre-dev
 
+# gd
+RUN apk add --no-cache libpng libpng-dev libjpeg-turbo-dev libwebp-dev zlib-dev libxpm-dev && \
+  docker-php-ext-install gd && \
+  apk del libpng-dev libjpeg-turbo-dev libwebp-dev zlib-dev libxpm-dev
+
 #Install BCMath package:
 ARG INSTALL_BCMATH=false
 RUN if [ ${INSTALL_BCMATH} = true ]; then \
